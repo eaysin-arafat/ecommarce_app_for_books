@@ -6,7 +6,7 @@ import useTitle from "../../hooks/useTitle";
 import { useFilter } from "../../context";
 
 export const ProductList = () => {
-  const { productList, initialProductList } = useFilter();
+  const { products, initialProductList } = useFilter();
   const [show, setShow] = useState(false);
   // const [prodects, setProducts] = useState([]);
   const search = useLocation().search;
@@ -32,7 +32,7 @@ export const ProductList = () => {
       <section className="my-5">
         <div className="my-5 flex justify-between">
           <span className="text-2xl font-semibold dark:text-slate-100 mb-5">
-            All eBooks ({productList.length})
+            All eBooks ({products.length})
           </span>
           <span>
             <button
@@ -56,7 +56,7 @@ export const ProductList = () => {
         </div>
 
         <div className="flex flex-wrap justify-center lg:flex-row">
-          {productList.map((product) => (
+          {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
