@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Search from "../sections/Search";
 import { DropdownLoggedOut, DropdownLoggedIn } from "../index";
 import { useCart } from "../../context";
@@ -14,6 +14,8 @@ export const Header = () => {
   const [dropdown, setDropdown] = useState(false);
   const token = JSON.parse(sessionStorage.getItem("token"));
 
+  const toggleRef = useRef();
+
   useEffect(() => {
     localStorage.setItem("darkMode", JSON.stringify(darkMode));
 
@@ -23,6 +25,21 @@ export const Header = () => {
       document.documentElement.classList.remove("dark");
     }
   }, [darkMode]);
+
+  useEffect(() => {
+    let handlr = (e) => {
+      if (!toggleRef.current.contains(e.target)) {
+        setDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handlr);
+
+    return () => {
+      document.removeEventListener("mousedown", handlr);
+    };
+  }, []);
+
   return (
     <header>
       <nav className="bg-white dark:bg-gray-900">
@@ -33,7 +50,7 @@ export const Header = () => {
               CodeBook
             </span>
           </Link>
-          <div className="flex items-center relative">
+          <div ref={toggleRef} className="flex items-center relative">
             <span
               onClick={() => setDarkMode(!darkMode)}
               className="cursor-pointer text-xl text-gray-700 dark:text-white mr-5 bi bi-gear-wide-connected"
