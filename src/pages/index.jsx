@@ -8,3 +8,5 @@ export { DashboardPage } from "./dashboard/DashboardPage";
 
 export { Register } from "./Ragister";
 export { Login } from "./Login";
+
+export { PageNotFound } from "./PageNotFound";

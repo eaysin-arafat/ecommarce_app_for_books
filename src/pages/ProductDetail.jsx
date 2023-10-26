@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { Rating } from "../components";
 import { useParams } from "react-router-dom";
 import useTitle from "../hooks/useTitle";
 import { useCart } from "../context";
+import { getProduct } from "../services";
+import { Rating } from "../components";
+import { toast } from "react-toastify";
 
 export const ProductDetail = () => {
   const { cartList, addToCart, removeFromCart } = useCart();
@@ -15,9 +17,17 @@ export const ProductDetail = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await fetch(`http://localhost:3000/products/${id}`);
-      const data = await response.json();
-      setProduct(data);
+      try {
+        const data = await getProduct(id);
+
+        setProduct(data);
+      } catch (error) {
+        toast.error(error.message, {
+          closeButton: true,
+          autoClose: 3000,
+          closeOnClick: true,
+        });
+      }
     };
     fetchProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps

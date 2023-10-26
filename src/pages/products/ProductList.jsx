@@ -1,30 +1,36 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { ProductCard } from "../../components";
-import FilterBar from "./components/FilterBar";
 import { useLocation } from "react-router-dom";
 import useTitle from "../../hooks/useTitle";
+
+import { ProductCard } from "../../components";
+import { FilterBar } from "./components/FilterBar";
+
 import { useFilter } from "../../context";
+import { getProductList } from "../../services";
+import { toast } from "react-toastify";
 
 export const ProductList = () => {
   const { products, initialProductList } = useFilter();
   const [show, setShow] = useState(false);
-  // const [prodects, setProducts] = useState([]);
   const search = useLocation().search;
   const searchTerm = new URLSearchParams(search).get("q");
   useTitle("Ecplore eBooks Collection");
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const response = await fetch(
-        `http://localhost:3000/products?name_like=${
-          searchTerm ? searchTerm : ""
-        }`
-      );
-      const data = await response.json();
-      initialProductList(data);
+      try {
+        const data = await getProductList(searchTerm);
+        initialProductList(data);
+      } catch (error) {
+        toast.error(error.message, {
+          closeButton: true,
+          autoClose: 3000,
+          closeOnClick: true,
+        });
+      }
     };
     fetchProducts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

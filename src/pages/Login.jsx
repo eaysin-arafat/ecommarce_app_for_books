@@ -1,33 +1,32 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import useTitle from "../hooks/useTitle";
+import { login } from "../services";
 
 export const Login = () => {
+  useTitle("Login");
   const navigate = useNavigate();
   const email = useRef();
   const password = useRef();
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    const authDetail = {
-      email: email.current.value,
-      password: password.current.value,
-    };
 
-    const requestOption = {
-      method: "POST",
-      headers: { "content-Type": "application/json" },
-      body: JSON.stringify(authDetail),
-    };
+    try {
+      const authDetail = {
+        email: email.current.value,
+        password: password.current.value,
+      };
 
-    const response = await fetch("http://localhost:3000/login", requestOption);
-
-    const data = await response.json();
-    console.log(data);
-    data.accessToken ? navigate("/products") : toast.error(data);
-
-    if (data.accessToken) {
-      sessionStorage.setItem("token", JSON.stringify(data.accessToken));
-      sessionStorage.setItem("cbid", JSON.stringify(data.user.id));
+      const data = await login(authDetail);
+      data.accessToken ? navigate("/products") : toast.error(data);
+    } catch (error) {
+      toast.error(error.message, {
+        closeButton: true,
+        autoClose: 3000,
+        closeOnClick: true,
+      });
     }
   };
 

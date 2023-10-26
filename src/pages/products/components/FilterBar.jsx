@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useFilter } from "../../../context";
 
-const FilterBar = ({ setShow }) => {
+export const FilterBar = ({ setShow }) => {
   const { state, dispatch } = useFilter();
 
   return (
@@ -246,5 +246,3 @@ const FilterBar = ({ setShow }) => {
     </section>
   );
 };
-
-export default FilterBar;
