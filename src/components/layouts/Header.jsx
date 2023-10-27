@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Search from "../sections/Search";
 import { DropdownLoggedOut, DropdownLoggedIn } from "../index";
 import { useCart } from "../../context";
+import useOutsideClick from "../../hooks/useOutsideClick";
 
 export const Header = () => {
   const { cartList } = useCart();
@@ -13,7 +14,6 @@ export const Header = () => {
   const [searchSection, setSearchSection] = useState(false);
   const [dropdown, setDropdown] = useState(false);
   const token = JSON.parse(sessionStorage.getItem("token"));
-
   const toggleRef = useRef();
 
   useEffect(() => {
@@ -26,19 +26,9 @@ export const Header = () => {
     }
   }, [darkMode]);
 
-  useEffect(() => {
-    let handlr = (e) => {
-      if (!toggleRef.current.contains(e.target)) {
-        setDropdown(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handlr);
-
-    return () => {
-      document.removeEventListener("mousedown", handlr);
-    };
-  }, []);
+  useOutsideClick(toggleRef, () => {
+    setDropdown(false);
+  });
 
   return (
     <header>
@@ -50,7 +40,7 @@ export const Header = () => {
               CodeBook
             </span>
           </Link>
-          <div ref={toggleRef} className="flex items-center relative">
+          <div className="flex items-center relative">
             <span
               onClick={() => setDarkMode(!darkMode)}
               className="cursor-pointer text-xl text-gray-700 dark:text-white mr-5 bi bi-gear-wide-connected"
@@ -67,6 +57,7 @@ export const Header = () => {
               </span>
             </Link>
             <span
+              ref={toggleRef}
               onClick={() => setDropdown(!dropdown)}
               className="bi bi-person-circle cursor-pointer text-2xl text-gray-700 dark:text-white"
             ></span>
