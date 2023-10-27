@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Search from "../sections/Search";
 import { DropdownLoggedOut, DropdownLoggedIn } from "../index";
 import { useCart } from "../../context";
-import useOutsideClick from "../../hooks/useOutsideClick";
 
 export const Header = () => {
   const { cartList } = useCart();
@@ -25,10 +24,6 @@ export const Header = () => {
       document.documentElement.classList.remove("dark");
     }
   }, [darkMode]);
-
-  useOutsideClick(toggleRef, () => {
-    setDropdown(false);
-  });
 
   return (
     <header>

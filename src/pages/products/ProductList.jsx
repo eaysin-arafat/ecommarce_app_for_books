@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useTitle from "../../hooks/useTitle";
 
@@ -15,6 +15,7 @@ export const ProductList = () => {
   const [show, setShow] = useState(false);
   const search = useLocation().search;
   const searchTerm = new URLSearchParams(search).get("q");
+  const toggleRef = useRef();
   useTitle("Ecplore eBooks Collection");
 
   useEffect(() => {
@@ -42,6 +43,7 @@ export const ProductList = () => {
           </span>
           <span>
             <button
+              ref={toggleRef}
               onClick={() => setShow(!show)}
               id="dropdownMenuIconButton"
               data-dropdown-toggle="dropdownDots"
