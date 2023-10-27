@@ -22,7 +22,7 @@ export const getUser = async () => {
   );
 
   if (!response.ok) {
-    throw { message: response.statusText, status: response.status };
+    throw new Error({ message: response.statusText, status: response.status });
   }
 
   const data = await response.json();
@@ -46,7 +46,7 @@ export const getUserOrders = async () => {
   );
 
   if (!response.ok) {
-    throw { message: response.statusText, status: response.status };
+    throw new Error({ message: response.statusText, status: response.status });
   }
 
   const data = await response.json();
@@ -82,7 +82,7 @@ export const createOrder = async (cartList, total, user) => {
   );
 
   if (!response.ok) {
-    throw { message: response.statusText, status: response.status };
+    throw new Error({ message: response.statusText, status: response.status });
   }
 
   const data = await response.json();
