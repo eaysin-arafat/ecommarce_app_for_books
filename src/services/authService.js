@@ -11,7 +11,8 @@ export const register = async (authDetail) => {
   );
 
   if (!response.ok) {
-    throw new Error({ message: response.statusText, status: response.status });
+    const error = { message: response.statusText, status: response.status };
+    throw new Error(error);
   }
 
   const data = await response.json();
@@ -37,7 +38,8 @@ export const login = async (authDetail) => {
   );
 
   if (!response.ok) {
-    throw new Error({ message: response.statusText, status: response.status });
+    const error = { message: response.statusText, status: response.status };
+    throw new Error(error);
   }
 
   const data = await response.json();

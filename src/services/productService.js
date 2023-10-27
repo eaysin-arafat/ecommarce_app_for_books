@@ -6,7 +6,8 @@ export const getProductList = async (searchTerm) => {
   );
 
   if (!response.ok) {
-    throw new Error({ message: response.statusText, status: response.status });
+    const error = { message: response.statusText, status: response.status };
+    throw new Error(error);
   }
   const data = await response.json();
 
@@ -19,7 +20,8 @@ export const getProduct = async (id) => {
   );
 
   if (!response.ok) {
-    throw new Error({ message: response.statusText, status: response.status });
+    const error = { message: response.statusText, status: response.status };
+    throw new Error(error);
   }
 
   const data = await response.json();
@@ -33,7 +35,8 @@ export const getFeaturedList = async () => {
   );
 
   if (!response.ok) {
-    throw new Error({ message: response.statusText, status: response.status });
+    const error = { message: response.statusText, status: response.status };
+    throw new Error(error);
   }
 
   const data = await response.json();
