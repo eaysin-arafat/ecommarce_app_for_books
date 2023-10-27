@@ -13,7 +13,14 @@ export const Header = () => {
   const [searchSection, setSearchSection] = useState(false);
   const [dropdown, setDropdown] = useState(false);
   const token = JSON.parse(sessionStorage.getItem("token"));
+  const menuRef = useRef();
   const toggleRef = useRef();
+
+  window.addEventListener("click", (e) => {
+    if (e.target !== menuRef.current && e.target !== toggleRef.current) {
+      setDropdown(false);
+    }
+  });
 
   useEffect(() => {
     localStorage.setItem("darkMode", JSON.stringify(darkMode));
@@ -52,15 +59,15 @@ export const Header = () => {
               </span>
             </Link>
             <span
-              ref={toggleRef}
+              ref={menuRef}
               onClick={() => setDropdown(!dropdown)}
               className="bi bi-person-circle cursor-pointer text-2xl text-gray-700 dark:text-white"
             ></span>
             {dropdown &&
               (token ? (
-                <DropdownLoggedIn setDropdown={setDropdown} />
+                <DropdownLoggedIn ref={toggleRef} setDropdown={setDropdown} />
               ) : (
-                <DropdownLoggedOut setDropdown={setDropdown} />
+                <DropdownLoggedOut ref={toggleRef} setDropdown={setDropdown} />
               ))}
           </div>
         </div>

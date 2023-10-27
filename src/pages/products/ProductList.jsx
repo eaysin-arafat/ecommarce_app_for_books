@@ -16,7 +16,15 @@ export const ProductList = () => {
   const search = useLocation().search;
   const searchTerm = new URLSearchParams(search).get("q");
   const toggleRef = useRef();
+  const menuRef = useRef();
+
   useTitle("Ecplore eBooks Collection");
+
+  window.addEventListener("click", (e) => {
+    if (e.target !== menuRef.current && e.target !== toggleRef.current) {
+      setShow(false);
+    }
+  });
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -43,7 +51,6 @@ export const ProductList = () => {
           </span>
           <span>
             <button
-              ref={toggleRef}
               onClick={() => setShow(!show)}
               id="dropdownMenuIconButton"
               data-dropdown-toggle="dropdownDots"
@@ -51,6 +58,7 @@ export const ProductList = () => {
               type="button"
             >
               <svg
+                ref={menuRef}
                 className="w-6 h-6"
                 aria-hidden="true"
                 fill="currentColor"
@@ -63,14 +71,14 @@ export const ProductList = () => {
           </span>
         </div>
 
+        <div>{show && <FilterBar ref={toggleRef} setShow={setShow} />}</div>
+
         <div className="flex flex-wrap justify-center lg:flex-row">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </section>
-
-      {show && <FilterBar setShow={setShow} />}
     </main>
   );
 };
