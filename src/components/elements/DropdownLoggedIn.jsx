@@ -9,7 +9,6 @@ export const DropdownLoggedIn = ({ setDropdown }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
 
-  console.log(user);
   useEffect(() => {
     const fetchData = async () => {
       try {
